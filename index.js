@@ -206,6 +206,13 @@ console.log('--------- Problem 4 --------')
 
 function whensYourParty(date, year) {
   // Find the day of the year for your birthday
+  const newDate = new Date(year, date.getMonth(), date.getDate());
+  const daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const day = newDate.getDay();
+  const partyDate = daysOfTheWeek[day];
+
+  console.log(partyDate)
+  return partyDate;
 }
 
 whensYourParty(bday, 2022)
