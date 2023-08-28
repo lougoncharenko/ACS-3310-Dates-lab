@@ -119,9 +119,25 @@ console.log(consecutiveDates(new Date(2019, 0, 1), 4, 3))
 // 2. 1/1/2020
 // 3. 1/1/2021
 
-// function consecutiveDates(date, repeat, offset, unit = 'day') {
-// 
-// }
+function consecutiveDatesWithUnit(date, repeat, offset, unit = 'day') {
+  const result = [];
+  const timeUnitInMilliseconds = {
+    year: 365 * 24 * 60 * 60 * 1000,
+    day: 24 * 60 * 60 * 1000,
+    hour: 60 * 60 * 1000,
+    minute: 60 * 1000,
+    second: 1000,
+  }[unit.toLowerCase()] || 24 * 60 * 60 * 1000; // Default to days if the unit is not recognized
+  
+  for (let i = 0; i < repeat; i++) {
+    const newDate = new Date(date.getTime() + i * offset * timeUnitInMilliseconds);
+    result.push(newDate.toLocaleDateString());
+  }
+  
+  return result;
+}
+
+console.log(consecutiveDatesWithUnit(new Date(2019, 0, 1), 3, 1, unit = 'year'))
 
 console.log('--------- Problem 2 --------')
 
@@ -135,11 +151,18 @@ console.log('--------- Problem 2 --------')
 function orderDates(dates) {
   // orders the dates 
   // returns a new array of ordered dates
+  const sortedDates = dates.slice().sort((a, b) => a - b)
+  const result = [];
+  for (let i = 0; i < sortedDates.length; i++) {
+    let newDate = sortedDates[i]
+    result.push(newDate.toLocaleDateString());
+  }
+  console.log(result)
+
+  return result;
 }
 
 orderDates([today, dueDate, startDate, bday, newYear])
-
-// [bday, startdate, duedate, newyear]
 
 // Stretch: Return an object containing three keys each holding an array of dates. The keys are: 
 
@@ -158,6 +181,17 @@ console.log('--------- Problem 3 --------')
 function nextDate(dates) {
   // find the date that will happen next in dates
   // return the next date
+  const today = new Date();
+  let closestDate = null;
+
+  for (const date of dates) {
+    if (date > today && (!closestDate || date < closestDate)) {
+      closestDate = date;
+    }
+  }
+
+  console.log(closestDate.toLocaleDateString())
+  return closestDate.toLocaleDateString();
 }
 
 nextDate([today, dueDate, startDate, bday, newYear])
